@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import google.generativeai as genai
 import yfinance as yf
+import os
+api_key = os.getenv("GEMINI_API_KEY")
 
 # 1. SETUP & CACHING
 st.set_page_config(page_title="Dual-AI Financial Copilot", layout="wide")
@@ -17,7 +19,7 @@ def get_ai_response(prompt, _model):
 # 2. SIDEBAR
 with st.sidebar:
     st.title("⚙️ Settings")
-    api_key = st.text_input("Gemini API Key", type="password")
+    
     user_goal = st.text_input("Savings Goal", value="Retirement")
     st.divider()
     st.info("Agentic Co-pilot v1.0")
@@ -37,9 +39,7 @@ with st.sidebar:
      Anomalies only.
         """, language="text")    
 
-if not api_key:
-    st.warning("Please enter your API Key to start.")
-    st.stop()
+
 
 # 3. INITIALIZE AI MODEL
 genai.configure(api_key=api_key)
